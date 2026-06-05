@@ -15,20 +15,18 @@ app.use("/api/user", userRoutes);
 
 mongoose
   .connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
-app.listen(5000, () => {
-  console.log("Server Running on Port 5000");
-});
-mongoose.connection.on("connected", () => {
-  console.log("MongoDB Connected");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.log("MongoDB Error:", err);
-});
+  .then(() => {
+    console.log("MongoDB Connected Successfully");
+  })
+  .catch((err) => {
+    console.log("MongoDB Connection Failed");
+    console.log(err);
+  });
 
 mongoose.connection.on("disconnected", () => {
   console.log("MongoDB Disconnected");
+});
+
+app.listen(5000, () => {
+  console.log("Server Running on Port 5000");
 });
