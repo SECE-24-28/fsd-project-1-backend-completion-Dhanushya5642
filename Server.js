@@ -1,25 +1,34 @@
-const express = require("express");// to import
-const mongoose = require("mongoose");
 require("dotenv").config();
+
+const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 
-const app = express();//to connect to express
-app.use(express.json()); // making it to use
+const userRoutes = require("./Routers/UserRoutes");
+
+const app = express();
+
 app.use(cors());
-app.listen(5000,()=>{
-    console.log("Server is Running at Port 5000");
+app.use(express.json());
 
-}
-);
-
-const userroutes = require("./Routers/UserRoutes");
-app.use("/api/user",userroutes);
+app.use("/api/user", userRoutes);
 
 mongoose
-.connect(process.env.MONGO_URL)
-.then(()=>{
-    console.log("MongoDB Connected Successfully");
-})
-.catch((err)=>{
-    console.log("MongoDB Connection Failed");
-})
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
+app.listen(5000, () => {
+  console.log("Server Running on Port 5000");
+});
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB Connected");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("MongoDB Error:", err);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB Disconnected");
+});
