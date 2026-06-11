@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://amazing-valkyrie-bbc067.netlify.app",
+      "https://bodega-grocery.netlify.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
